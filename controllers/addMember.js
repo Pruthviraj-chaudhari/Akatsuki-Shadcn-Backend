@@ -12,7 +12,13 @@ exports.addMember = async (req, res) => {
       resume = "",
     } = req.body;
 
-    const foundMember = await Member.find({email});
+    const foundMember = await Member.find({
+      $or: [
+        { email: email },
+        { github: github },
+        { leetcode: leetcode },
+      ],
+    });
 
     if(foundMember.length > 0){
       return res.status(400).json({
