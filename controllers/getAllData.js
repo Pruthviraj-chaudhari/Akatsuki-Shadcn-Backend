@@ -2,9 +2,11 @@ const mongoose = require("mongoose");
 const Member = require("../models/member");
 
 exports.getAllData = async(req, res) => {
-    const data = await Member.find({});
-
-    res.status(200).json({
-        Akatsuki_Members: data
-    })    
+    try {
+        const data = await Member.find({});
+        res.status(200).json({ data });
+      } catch (error) {
+        console.error('Error fetching data:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      } 
 }
