@@ -10,6 +10,7 @@ const memberSchema = new mongoose.Schema({
     language: String,
     github: String,
     leetcode: String,
+    linkedin: String,
     resume: String,
 });
 

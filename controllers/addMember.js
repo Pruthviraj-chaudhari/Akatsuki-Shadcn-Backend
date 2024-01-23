@@ -9,6 +9,7 @@ exports.addMember = async (req, res) => {
       language = "",
       github = "",
       leetcode = "",
+      linkedin = "",
       resume = "",
     } = req.body;
 
@@ -16,6 +17,7 @@ exports.addMember = async (req, res) => {
       $or: [
         { email: email },
         { github: github },
+        { linkedin: linkedin },
         { leetcode: leetcode },
       ],
     });
@@ -34,6 +36,7 @@ exports.addMember = async (req, res) => {
       language,
       github,
       leetcode,
+      linkedin,
       resume,
     });
 

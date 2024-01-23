@@ -4,6 +4,7 @@ const member = require("./models/member");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { addMember } = require("./controllers/addMember");
+const { getAllData } = require("./controllers/getAllData");
 const PORT = 3001 || process.env.PORT;
 
 const app = express();
@@ -25,6 +26,8 @@ app.get('/', (req, res)=>{
 		message: `Server is Running on PORT ${PORT}🎉`
 	});
 })
+
+app.get('/api/getData', getAllData)
 app.post('/api/addmember', addMember);
 
 app.listen(PORT, ()=>{
