@@ -12,6 +12,10 @@ const memberSchema = new mongoose.Schema({
     leetcode: String,
     linkedin: String,
     resume: String,
+    isMember: {
+        type: Boolean,
+        default: false, // Set the default value to false
+    },
 });
 
 module.exports = mongoose.model('Member', memberSchema);
