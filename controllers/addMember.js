@@ -1,17 +1,26 @@
 const Member = require("../models/member");
+const fetchProfilePhoto = require("../Utils/getGithubImage");
 
 exports.addMember = async (req, res) => {
   try {
     const {
-      name = "",
+      fname = "",
+      lname = "",
       email = "",
       role = "",
-      language = "",
+      about = "",
       github = "",
       leetcode = "",
       linkedin = "",
+      instagram = "",
+      gfg = "",
+      codechef = "",
+      hackerrank = "",
       resume = "",
+      skills = [],
     } = req.body;
+
+    console.log(req.body);
 
     const foundMember = await Member.find({
       $or: [
@@ -22,23 +31,35 @@ exports.addMember = async (req, res) => {
       ],
     });
 
-    if(foundMember.length > 0){
+    if (foundMember.length > 0) {
       return res.status(400).json({
         success: false,
         message: "Member Already Responded",
-      })
+      });
     }
+
+    const image = await fetchProfilePhoto(github);
+
+    const name = `${fname} ${lname}`;
 
     const newMember = await Member.create({
       name,
       email,
       role,
-      language,
+      about,
       github,
       leetcode,
       linkedin,
+      instagram,
+      gfg,
+      codechef,
+      hackerrank,
       resume,
+      image,
+      skills,
     });
+
+    console.log("New Member Added 🎉");
 
     return res.status(200).json({
       success: true,

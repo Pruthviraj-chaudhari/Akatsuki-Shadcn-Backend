@@ -1,6 +1,6 @@
 const express = require("express");
 const database = require("./config/database");
-const member = require("./models/member");
+const Member = require("./models/member");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const { addMember } = require("./controllers/addMember");
@@ -24,6 +24,7 @@ app.use(
 );
 
 database.connect();
+
 
 app.get("/", (req, res) => {
   res.json({
