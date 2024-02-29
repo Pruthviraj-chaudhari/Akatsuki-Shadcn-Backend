@@ -1,16 +1,16 @@
-import express, { json } from "express";
-import { connect } from "./config/database";
-import cors from "cors";
-import { json as _json } from "body-parser";
-import routes from "./routes/route";
-import cookieParser from "cookie-parser";
+const express = require("express");
+const database = require("./config/database");
+const cors = require("cors");
+const bodyParser = require("body-parser");
+const routes = require("./routes/route");
+const cookieParser = require("cookie-parser");
 
 const PORT = 3002 || process.env.PORT;
 
 const app = express();
 
-app.use(json());
-app.use(_json());
+app.use(express.json());
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(
   cors({
@@ -24,7 +24,7 @@ app.use(
   })
 );
 
-connect();
+database.connect();
 
 app.use("/", routes);
 

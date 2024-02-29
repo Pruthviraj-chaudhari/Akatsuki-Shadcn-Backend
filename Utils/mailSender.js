@@ -1,8 +1,8 @@
-import { createTransport } from "nodemailer";
+const nodemailer = require("nodemailer");
 
 const mailSender = async (email, title, body) => {
     try {
-        let transporter = createTransport({
+        let transporter = nodemailer.createTransport({
             host: process.env.MAIL_HOST,
             auth:{
                 user: process.env.MAIL_USER,
@@ -23,4 +23,4 @@ const mailSender = async (email, title, body) => {
     }
 }
 
-export default mailSender;
+module.exports = mailSender;

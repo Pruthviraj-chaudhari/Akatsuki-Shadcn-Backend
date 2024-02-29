@@ -1,7 +1,11 @@
-import { findById } from "../models/member";
-import fetchProfilePhoto from "../utils/getGithubImage";
+// const Member = require("../models/member");
+// const fetchProfilePhoto = require("../utils/getGithubImage");
 
-export async function updateProfile(req, res) {
+
+const Member = require("../models/member");
+const fetchProfilePhoto = require("../utils/getGithubImage");
+
+exports.updateProfile = async (req, res) => {
   try {
     const userId = req.user.id;
 
@@ -27,7 +31,7 @@ export async function updateProfile(req, res) {
       skills,
     } = req.body;
 
-    const existingUser = await findById(userId);
+    const existingUser = await Member.findById(userId);
 
     if (!existingUser) {
       return res.status(404).json({
@@ -73,4 +77,4 @@ export async function updateProfile(req, res) {
       message: "Profile cannot be updated. Please try again.",
     });
   }
-}
+};

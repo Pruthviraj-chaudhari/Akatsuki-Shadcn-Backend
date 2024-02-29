@@ -1,7 +1,7 @@
-import { verify } from "jsonwebtoken";
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-export async function auth(req, res, next) {
+exports.auth = async (req, res, next) => {
   try {
     const token =
       req.cookies.token ||
@@ -14,7 +14,7 @@ export async function auth(req, res, next) {
     }
 
     try {
-      const decode = verify(token, process.env.JWT_SECRET);
+      const decode = jwt.verify(token, process.env.JWT_SECRET);
       req.user = decode;
     } catch (error) {
       return res
@@ -29,4 +29,4 @@ export async function auth(req, res, next) {
       message: `Something Went Wrong While Validating the Token`,
     });
   }
-}
+};

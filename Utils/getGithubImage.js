@@ -24,4 +24,4 @@ async function fetchProfilePhoto(profileLink) {
   }
 }
 
-export default fetchProfilePhoto;
+module.exports = fetchProfilePhoto;

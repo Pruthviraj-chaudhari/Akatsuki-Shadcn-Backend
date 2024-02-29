@@ -1,10 +1,10 @@
-import { Router } from "express";
-import { updateProfile } from "../controllers/update";
-import { getAllData, getProfileById } from "../controllers/getAllData";
-import { signUp, login, sendotp, logout } from "../controllers/auth";
-import { auth } from "../middlewares/auth";
+const express = require("express");
+const { updateProfile } = require("../controllers/update");
+const { getAllData, getProfileById } = require("../controllers/getAllData");
+const { signUp, login, sendotp, logout } = require("../controllers/auth");
+const { auth } = require("../middlewares/auth");
 
-const router = Router();
+const router = express.Router();
 
 router.get("/api/getData", getAllData);
 router.get("/api/profiles/:id", getProfileById);
@@ -18,4 +18,4 @@ router.post('/auth/logout', logout);
 
 
 
-export default router;
+module.exports = router;

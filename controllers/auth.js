@@ -1,10 +1,10 @@
-import { hash, compare } from "bcrypt";
-import { sign } from "jsonwebtoken";
-import { generate } from "otp-generator";
-import { findOne, create } from "../models/member";
-import { find, findOne as _findOne, create as _create } from "../models/otp";
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const otpGenerator = require("otp-generator");
+const Member = require("../models/member");
+const OTP = require("../models/otp");
 
-export async function signUp(req, res) {
+exports.signUp = async (req, res) => {
   try {
     const { fname, lname, email, password, confirmPassword, otp } = req.body;
 
@@ -18,7 +18,7 @@ export async function signUp(req, res) {
     }
 
     // Check if student already exists
-    const existingStudent = await findOne({ email });
+    const existingStudent = await Member.findOne({ email });
     if (existingStudent) {
       return res.status(400).json({
         success: false,
@@ -27,7 +27,7 @@ export async function signUp(req, res) {
     }
 
     // Find the most recent OTP for the email
-    const response = await find({ email }).sort({ createdAt: -1 }).limit(1);
+    const response = await OTP.find({ email }).sort({ createdAt: -1 }).limit(1);
 
     if (response.length === 0) {
       // OTP not found for the email
@@ -44,9 +44,9 @@ export async function signUp(req, res) {
     }
 
     // Hash the password
-    const hashedPassword = await hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    const newMember = await create({
+    const newMember = await Member.create({
       name: `${fname} ${lname}`,
       email,
       password: hashedPassword,
@@ -64,7 +64,7 @@ export async function signUp(req, res) {
     });
 
     // Generate JWT token
-    const token = sign(
+    const token = jwt.sign(
       {
         email: newMember.email,
         id: newMember._id,
@@ -99,9 +99,9 @@ export async function signUp(req, res) {
       message: "Student cannot be registered. Please try again.",
     });
   }
-}
+};
 
-export async function login(req, res) {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -112,7 +112,7 @@ export async function login(req, res) {
       });
     }
 
-    const student = await findOne({ email });
+    const student = await Member.findOne({ email });
 
     // If student not found with provided email
     if (!student) {
@@ -123,8 +123,8 @@ export async function login(req, res) {
     }
 
     // Generate JWT token and Compare Password
-    if (await compare(password, student.password)) {
-      const token = sign(
+    if (await bcrypt.compare(password, student.password)) {
+      const token = jwt.sign(
         {
           email: student.email,
           id: student._id,
@@ -163,9 +163,9 @@ export async function login(req, res) {
       message: `Login failed. Please try again later`,
     });
   }
-}
+};
 
-export async function sendotp(req, res) {
+exports.sendotp = async (req, res) => {
   try {
     const email = req.body.email;
 
@@ -176,7 +176,7 @@ export async function sendotp(req, res) {
       });
     }
 
-    const checkPresent = await findOne({ email });
+    const checkPresent = await Member.findOne({ email });
 
     if (checkPresent) {
       return res.status(401).json({
@@ -185,26 +185,26 @@ export async function sendotp(req, res) {
       });
     }
 
-    var otp = generate(6, {
+    var otp = otpGenerator.generate(6, {
       upperCaseAlphabets: false,
       lowerCaseAlphabets: false,
       specialChars: false,
     });
 
-    let result = await _findOne({ otp: otp });
+    let result = await OTP.findOne({ otp: otp });
 
     while (result) {
-      otp = generate(6, {
+      otp = otpGenerator.generate(6, {
         upperCaseAlphabets: false,
         lowerCaseAlphabets: false,
         specialChars: false,
       });
-      result = await _findOne({ otp: otp });
+      result = await OTP.findOne({ otp: otp });
     }
 
     const otpPayload = { email, otp };
 
-    const otpBody = await _create(otpPayload);
+    const otpBody = await OTP.create(otpPayload);
 
     res.status(200).json({
       success: true,
@@ -219,13 +219,13 @@ export async function sendotp(req, res) {
       error: error.message,
     });
   }
-}
+};
 
-export function logout(req, res) {
+exports.logout = (req, res) => {
   // Clear the cookie on the server side
   res.clearCookie("token");
 
   // You can also perform additional actions if needed
 
   res.status(200).json({ success: true, message: "Logout successful" });
-}
+};
