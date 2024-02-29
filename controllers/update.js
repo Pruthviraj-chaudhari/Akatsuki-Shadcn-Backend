@@ -1,67 +1,6 @@
 // const Member = require("../models/member");
 // const fetchProfilePhoto = require("../utils/getGithubImage");
 
-// exports.updateProfile = async (req, res) => {
-//   try {
-//     const {
-//       role,
-//       about,
-//       github,
-//       leetcode,
-//       linkedin,
-//       instagram,
-//       gfg,
-//       codechef,
-//       hackerrank,
-//       resume,
-//       skills,
-//     } = req.body;
-
-//     const image = await fetchProfilePhoto(github);
-
-//     const id = req.user.id;
-
-//     if(!id){
-//       return res.status(500).json({
-//         success: false,
-//         message: "Please login before updating profile",
-//       });
-//     }
-
-//     const updatedUser = await Member.findByIdAndUpdate(
-//       id,
-//       {
-//         role,
-//         about,
-//         github,
-//         leetcode,
-//         linkedin,
-//         instagram,
-//         gfg,
-//         codechef,
-//         hackerrank,
-//         resume,
-//         skills,
-//         image,
-//         isProfileComplete: true,
-//       },
-//       { new: true } // Return the updated user
-//     );
-
-//     return res.status(200).json({
-//       success: true,
-//       message: "Profile updated successfully",
-//       updatedUser,
-//     });
-
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "Profile cannot be updated. Please try again.",
-//     });
-//   }
-// }
-
 const Member = require("../models/member");
 const fetchProfilePhoto = require("../utils/getGithubImage");
 
