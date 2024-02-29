@@ -63,11 +63,35 @@ exports.signUp = async (req, res) => {
       skills: [],
     });
 
-    return res.status(200).json({
+    // Generate JWT token
+    const token = jwt.sign(
+      {
+        email: newMember.email,
+        id: newMember._id,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "24h",
+      }
+    );
+
+    // Save token to the new member document in the database
+    newMember.token = token;
+    newMember.password = undefined;
+
+    // Set cookie for token and return success response
+    const options = {
+      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+      httpOnly: false,
+    };
+
+    res.cookie("token", token, options).status(200).json({
       success: true,
+      token,
       student: newMember,
-      message: "Student registered successfully",
+      message: "Student registered and logged in successfully",
     });
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({

@@ -28,32 +28,26 @@ const memberSchema = new mongoose.Schema({
     },
     leetcode: {
         type: String,
-        unique: true,
         default: ""
     },
     linkedin: {
         type: String,
-        unique: true,
         default: ""
     },
     instagram: {
         type: String,
-        unique: true,
         default: ""
     },
     gfg: {
         type: String,
-        unique: true,
         default: ""
     },
     codechef: {
         type: String,
-        unique: true,
         default: ""
     },
     hackerrank: {
         type: String,
-        unique: true,
         default: ""
     },
     resume: {
