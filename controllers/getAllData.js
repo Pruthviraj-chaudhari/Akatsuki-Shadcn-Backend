@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const Member = require("../models/member");
+const Member = require("../models/member").default;
 
 exports.getAllData = async (req, res) => {
   try {
