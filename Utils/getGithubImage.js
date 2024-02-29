@@ -1,4 +1,4 @@
-async function fetchProfilePhoto(profileLink) {
+exports.fetchProfilePhoto = async (profileLink) => {
   try {
     const githubUsername = new URL(profileLink).pathname.split("/")[1];
     if (!githubUsername) {
@@ -24,4 +24,3 @@ async function fetchProfilePhoto(profileLink) {
   }
 }
 
-module.exports = fetchProfilePhoto;

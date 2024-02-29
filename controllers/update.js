@@ -3,7 +3,8 @@
 
 
 const Member = require("../models/member");
-const fetchProfilePhoto = require("../utils/getGithubImage");
+// const fetchProfilePhoto = require("../utils/getGithubImage");
+const utils = require("../utils/getGithubImage");
 
 exports.updateProfile = async (req, res) => {
   try {
@@ -58,7 +59,7 @@ exports.updateProfile = async (req, res) => {
       existingUser.isProfileComplete = true;
 
       // Fetch the profile photo separately only for the first-time completion
-      const image = await fetchProfilePhoto(github);
+      const image = await utils.fetchProfilePhoto(github);
       existingUser.image = image;
     }
 
