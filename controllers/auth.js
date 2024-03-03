@@ -82,7 +82,9 @@ exports.signUp = async (req, res) => {
     if (req.headers.cookie.includes("cookieConsent=true")) {
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        secure: true,
         httpOnly: false,
+        sameSite: "None",
       };
 
       res.cookie("token", token, options);
@@ -143,7 +145,9 @@ exports.login = async (req, res) => {
 
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        secure: true,
         httpOnly: false,
+        sameSite: "None",
       };
 
       res.cookie("token", token, options).status(200).json({
