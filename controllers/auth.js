@@ -149,8 +149,7 @@ exports.login = async (req, res) => {
 
         res.cookie("token", token, options);
       }
-      
-      console.log("Login Sucessfull: ", student.name)
+
       res.status(200).json({
         success: true,
         token,
