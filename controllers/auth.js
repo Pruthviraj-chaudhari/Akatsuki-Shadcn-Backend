@@ -141,7 +141,7 @@ exports.login = async (req, res) => {
       student.token = token;
       student.password = null;
 
-      if (req.headers.cookie.includes("cookieConsent=true")) {
+      if (req.headers.cookie && req.headers.cookie.includes("cookieConsent=true")) {
         const options = {
           expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
           httpOnly: false,
