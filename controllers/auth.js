@@ -79,19 +79,21 @@ exports.signUp = async (req, res) => {
     newMember.token = token;
     newMember.password = undefined;
 
-    // Set cookie for token and return success response
-    const options = {
-      expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-      httpOnly: false,
-    };
+    if (req.headers.cookie.includes("cookieConsent=true")) {
+      const options = {
+        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+        httpOnly: false,
+      };
 
-    res.cookie("token", token, options).status(200).json({
+      res.cookie("token", token, options);
+    }
+
+    res.status(200).json({
       success: true,
       token,
       student: newMember,
       message: "Student registered and logged in successfully",
     });
-    
   } catch (error) {
     console.error(error);
     return res.status(500).json({
@@ -138,12 +140,18 @@ exports.login = async (req, res) => {
       // Save token to student document in database
       student.token = token;
       student.password = undefined;
-      // Set cookie for token and return success response
-      const options = {
-        expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
-        httpOnly: false,
-      };
-      res.cookie("token", token, options).status(200).json({
+
+      if (req.headers.cookie && req.headers.cookie.includes("cookieConsent=true")) {
+        const options = {
+          expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+          httpOnly: false,
+        };
+
+        res.cookie("token", token, options);
+      }
+      
+      console.log("Login Sucessfull: ", student.name)
+      res.status(200).json({
         success: true,
         token,
         student,

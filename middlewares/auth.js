@@ -3,8 +3,14 @@ require("dotenv").config();
 
 exports.auth = async (req, res, next) => {
   try {
-    const token = req.cookies.token || req.body.token
+    // Extracting JWT from request cookies, body or header
+		const token =
+    req.cookies.token ||
+    req.body.token ||
+    req.header("Authorization").replace("Bearer ", "");
 
+    console.log("TOKEN: ", token)
+    
     // If JWT is missing, return 401 Unauthorized response
     if (!token) {
       return res.status(401).json({ success: false, message: `Token Missing` });
