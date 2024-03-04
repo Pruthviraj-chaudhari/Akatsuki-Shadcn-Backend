@@ -23,8 +23,7 @@ const memberSchema = new mongoose.Schema({
     },
     github: {
         type: String,
-        unique: true,
-        default: ""
+        default: null
     },
     leetcode: {
         type: String,
