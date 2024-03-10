@@ -17,12 +17,12 @@ exports.signUp = async (req, res) => {
       });
     }
 
-    // Check if student already exists
-    const existingStudent = await Member.findOne({ email });
-    if (existingStudent) {
+    // Check if user already exists
+    const existingUser = await Member.findOne({ email });
+    if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: "Student already exists. Please sign in to continue.",
+        message: "User already exists. Please sign in to continue.",
       });
     }
 
@@ -89,14 +89,14 @@ exports.signUp = async (req, res) => {
     res.cookie("token", token, options).status(200).json({
       success: true,
       token,
-      student: newMember,
-      message: "Student registered and logged in successfully",
+      user: newMember,
+      message: "User registered and logged in successfully",
     });
   } catch (error) {
     console.error(error);
     return res.status(500).json({
       success: false,
-      message: "Student cannot be registered. Please try again.",
+      message: "User cannot be registered. Please try again.",
     });
   }
 };
@@ -112,22 +112,22 @@ exports.login = async (req, res) => {
       });
     }
 
-    const student = await Member.findOne({ email });
+    const user = await Member.findOne({ email });
 
-    // If student not found with provided email
-    if (!student) {
+    // If user not found with provided email
+    if (!user) {
       return res.status(401).json({
         success: false,
-        message: `Student not registered. Please sign up to continue`,
+        message: `User not registered. Please sign up to continue`,
       });
     }
 
     // Generate JWT token and Compare Password
-    if (await bcrypt.compare(password, student.password)) {
+    if (await bcrypt.compare(password, user.password)) {
       const token = jwt.sign(
         {
-          email: student.email,
-          id: student._id,
+          email: user.email,
+          id: user._id,
         },
         process.env.JWT_SECRET,
         {
@@ -135,9 +135,9 @@ exports.login = async (req, res) => {
         }
       );
 
-      // Save token to student document in database
-      student.token = token;
-      student.password = null;
+      // Save token to user document in database
+      user.token = token;
+      user.password = null;
 
       const options = {
         expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
@@ -149,8 +149,8 @@ exports.login = async (req, res) => {
       res.cookie("token", token, options).status(200).json({
         success: true,
         token,
-        student,
-        message: `Student Login Success`,
+        user,
+        message: `User Login Success`,
       });
     } else {
       return res.status(401).json({
@@ -184,7 +184,7 @@ exports.sendotp = async (req, res) => {
     if (checkPresent) {
       return res.status(401).json({
         success: false,
-        message: "Student already registered",
+        message: "User already registered",
       });
     }
 
