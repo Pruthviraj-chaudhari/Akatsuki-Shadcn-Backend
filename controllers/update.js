@@ -73,23 +73,25 @@ exports.updateProfile = async (req, res) => {
     existingUser.hackerrank = hackerrank || existingUser.hackerrank;
     existingUser.resume = resume || existingUser.resume;
     existingUser.skills = skills || existingUser.skills;
+    existingUser.image = await fetchProfilePhoto(github);
 
     // Set isProfileComplete to true if it's the first-time completion
-    if (!existingUser.isProfileComplete) {
+    if (existingUser.isProfileComplete === false) {
       existingUser.isProfileComplete = true;
+    }
 
-      // Fetch the profile photo separately only for the first-time completion
+    if (github && existingUser.image ===  `https://ui-avatars.com/api/?name=${existingUser.name}`){
       const image = await fetchProfilePhoto(github);
       existingUser.image = image;
     }
 
     // Save the updated user
-    const student = await existingUser.save();
+    const user = await existingUser.save();
 
     return res.status(200).json({
       success: true,
       message: "Profile updated successfully",
-      student,
+      user,
     });
   } catch (error) {
     console.error(error);
