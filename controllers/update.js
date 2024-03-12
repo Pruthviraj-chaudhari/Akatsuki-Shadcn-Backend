@@ -73,16 +73,17 @@ exports.updateProfile = async (req, res) => {
     existingUser.hackerrank = hackerrank || existingUser.hackerrank;
     existingUser.resume = resume || existingUser.resume;
     existingUser.skills = skills || existingUser.skills;
-    existingUser.image = await fetchProfilePhoto(github);
+
 
     // Set isProfileComplete to true if it's the first-time completion
     if (existingUser.isProfileComplete === false) {
-      existingUser.isProfileComplete = true;
-    }
-
-    if (github && existingUser.image ===  `https://ui-avatars.com/api/?name=${existingUser.name}`){
       const image = await fetchProfilePhoto(github);
-      existingUser.image = image;
+
+      if (image) {
+        existingUser.image = image;
+      }
+      
+      existingUser.isProfileComplete = true;
     }
 
     // Save the updated user
@@ -101,3 +102,4 @@ exports.updateProfile = async (req, res) => {
     });
   }
 };
+
