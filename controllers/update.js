@@ -74,13 +74,12 @@ exports.updateProfile = async (req, res) => {
     existingUser.resume = resume || existingUser.resume;
     existingUser.skills = skills || existingUser.skills;
 
-    const image = await fetchProfilePhoto(github || existingUser.github);
-    if (image) {
-      existingUser.image = image;
-    }
-
     // Set isProfileComplete to true if it's the first-time completion
     if (github && existingUser.isProfileComplete === false) {
+      const image = await fetchProfilePhoto(github || existingUser.github);
+
+      existingUser.image = image;
+
       existingUser.isProfileComplete = true;
     }
 
