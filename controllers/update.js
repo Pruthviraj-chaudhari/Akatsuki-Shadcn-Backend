@@ -74,15 +74,17 @@ exports.updateProfile = async (req, res) => {
     existingUser.resume = resume || existingUser.resume;
     existingUser.skills = skills || existingUser.skills;
 
-
-    // Set isProfileComplete to true if it's the first-time completion
-    if (existingUser.isProfileComplete === false) {
+    if (github) {
       const image = await fetchProfilePhoto(github);
 
       if (image) {
         existingUser.image = image;
+        existingUser.isProfileComplete = true;
       }
-      
+    }
+
+    // Set isProfileComplete to true if it's the first-time completion
+    if (existingUser.isProfileComplete === false) {
       existingUser.isProfileComplete = true;
     }
 
@@ -102,4 +104,3 @@ exports.updateProfile = async (req, res) => {
     });
   }
 };
-
