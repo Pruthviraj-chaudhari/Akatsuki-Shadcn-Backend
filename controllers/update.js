@@ -74,8 +74,8 @@ exports.updateProfile = async (req, res) => {
     existingUser.resume = resume || existingUser.resume;
     existingUser.skills = skills || existingUser.skills;
 
-    if (github) {
-      const image = await fetchProfilePhoto(github);
+    if (!existingUser.image.startsWith("https://avatars.githubusercontent.com") || github || existingUser.github) {
+      const image = await fetchProfilePhoto(github || existingUser.github);
       if (image) {
         existingUser.image = image;
       }
