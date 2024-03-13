@@ -36,17 +36,25 @@ exports.updateProfile = async (req, res) => {
       });
     }
 
+    // Helper function to ensure "https://" prefix in the URL
+    const ensureHttps = (url) => {
+      if (url && !url.startsWith("https://")) {
+        return "https://" + url;
+      }
+      return url;
+    };
+
     // Update only the fields that are present in the request body
     existingUser.role = role || existingUser.role;
     existingUser.about = about || existingUser.about;
-    existingUser.github = github || existingUser.github;
-    existingUser.leetcode = leetcode || existingUser.leetcode;
-    existingUser.linkedin = linkedin || existingUser.linkedin;
-    existingUser.instagram = instagram || existingUser.instagram;
-    existingUser.gfg = gfg || existingUser.gfg;
-    existingUser.codechef = codechef || existingUser.codechef;
-    existingUser.hackerrank = hackerrank || existingUser.hackerrank;
-    existingUser.resume = resume || existingUser.resume;
+    existingUser.github = ensureHttps(github) || existingUser.github;
+    existingUser.leetcode = ensureHttps(leetcode) || existingUser.leetcode;
+    existingUser.linkedin = ensureHttps(linkedin) || existingUser.linkedin;
+    existingUser.instagram = ensureHttps(instagram) || existingUser.instagram;
+    existingUser.gfg = ensureHttps(gfg) || existingUser.gfg;
+    existingUser.codechef = ensureHttps(codechef) || existingUser.codechef;
+    existingUser.hackerrank = ensureHttps(hackerrank) || existingUser.hackerrank;
+    existingUser.resume = ensureHttps(resume) || existingUser.resume;
     existingUser.skills = skills || existingUser.skills;
 
     if (image) {
