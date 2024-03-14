@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const mailSender = require("../Utils/mailSender");
+const emailTemplate = require("../mailTemplate/otp");
 
 const OTPSchema = new mongoose.Schema({
     email: {
@@ -23,7 +24,7 @@ async function sendVerificationEmail(email, otp) {
         const mailResponse = await mailSender(
             email,
             "Verification Email",
-            `This is OTP to verify your Akatsuki Connect Account ${otp}`
+            emailTemplate(otp)
         );
 	} catch (error) {
 		console.log("Error occurred while sending email: ", error);
