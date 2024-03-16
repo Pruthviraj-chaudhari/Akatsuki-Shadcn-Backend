@@ -29,7 +29,11 @@ exports.getProfileById = async (req, res) => {
       return res.status(400).json({ error: 'Invalid profile ID' });
     }
 
-    const profile = await Member.findOne({ _id: id, isProfileComplete: true }).select('-password -token');
+    const profile = await Member.findOneAndUpdate(
+      { _id: id, isProfileComplete: true }, // Find profile by ID and ensure it's complete
+      { $inc: { visits: 1 } }, // Increment the visits count by 1
+      { new: true } // Return the updated document
+    ).select('-password -token');
 
     if (!profile) {
       return res.status(404).json({ error: 'Profile not found' });

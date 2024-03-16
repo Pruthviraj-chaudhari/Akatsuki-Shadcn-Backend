@@ -71,6 +71,10 @@ const memberSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    visits: {
+        type: Number,
+        default: 0
+    },
 });
 
 module.exports = mongoose.model('Member', memberSchema);
