@@ -1,9 +1,10 @@
 const express = require("express");
-const database = require("./config/database");
+const database = require("../config/database");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const routes = require("./routes/route");
+const routes = require("../routes/route");
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 
 const PORT = 3002 || process.env.PORT;
 
