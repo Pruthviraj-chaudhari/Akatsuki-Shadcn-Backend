@@ -106,12 +106,8 @@ const otpTemplate = (otp) => {
     <body>
       <div class="container">
         <div class="header">
-          <img class="" src="https://i.ibb.co/mb0W3LS/pngegg.png" alt="" />
-          <img
-            class=""
-            src="https://www.rcpit.ac.in/uploads/1599837268.png"
-            alt=""
-          />
+          <img class="" src="/logo.png" alt="Logo" />
+          <img class="" src="/rcpit.png" alt="RCPIT" />
           <h1 class="card-title">Akatsuki Coding Club</h1>
   
           <div class="content">
