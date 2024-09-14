@@ -106,8 +106,8 @@ const otpTemplate = (otp) => {
     <body>
       <div class="container">
         <div class="header">
-          <img class="" src="/logo.png" alt="Logo" />
-          <img class="" src="/rcpit.png" alt="RCPIT" />
+          <img class="" src="https://akatsuki-connect-backend.vercel.app/logo.png" alt="Logo" />
+          <img class="" src="https://akatsuki-connect-backend.vercel.app/rcpit.png" alt="RCPIT" />
           <h1 class="card-title">Akatsuki Coding Club</h1>
   
           <div class="content">
